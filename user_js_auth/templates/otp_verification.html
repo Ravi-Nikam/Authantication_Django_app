@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		
+		{% block main %}
+			Forgot-password
+		{% endblock %}
+
+	</title>
+</head>
+<body>
+	{% block body %}
+		{% if msg %}
+		<div class="alert alert-danger">
+  			<strong>!!</strong> {{ msg }}
+		</div> 
+	{% endif %}
+	<form class="form-horizontal" action="{% url 'otp_verification' %}" method="post" style="padding-right:10%;">
+		{% csrf_token %} 
+		<center>
+		<div class="card text-center" style="width: 500px;">
+		    <div class="card-header h3 text-white bg-primary"> OTP Verification </div>
+		    	<div class="card-body px-5">
+			        <p class="card-text py-3">
+			        	<strong>
+			             To continue, complete this verification step. We've sent an OTP to the Email Please enter it below to complete verification. 
+			            </strong>
+			        </p>
+			        <div class="form-outline">
+			            <input type="number" id="typeopt" class="form-control my-3" placeholder="Enter OTP"  name="otp" />
+
+			        </div>
+			        <br>
+			        <table>
+			        	<td>
+			        <button class="btn btn-primary w-100">Continue...</button>
+			    		</td>
+			    		<td>
+			        	<div class="d-flex justify-content-between mt-4" style="padding-left: 12px;">
+			            	<a class="" href="{% url 'login' %}">Login</a>
+			            	<a class="" href="{% url 'signup' %}">Register</a>
+			        	</td>
+			       	</table>
+		        </div>
+		    </div>
+		</div>
+	  </center>
+	</form>
+	{% endblock %}
+</body>
+</html>
