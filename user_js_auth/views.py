@@ -18,11 +18,11 @@ def signup(request):
 		password = request.POST['password']
 		cpassword = request.POST['cpassword']
 		if password == cpassword:
-			
 			Emp_reg.objects.create( 
 			 	name = name,email=email,mobileno=mobileno,password=password
 			 )
-		return render(request,'login.html',{'msg':msg})
+			msg = f"welcome ||{name}"
+			return render(request,'login.html',{'msg':msg})
 	return render(request,'signup.html')
 
 # Login Page
@@ -41,6 +41,7 @@ def login(request):
 		except:
 			msg = "the email you have entered is incorrect"
 			return render(request,'login.html',{'msg':msg})
+	return render(request,'login.html')
 
 # Change Password 
 def reset_password(request):
@@ -82,11 +83,10 @@ def logout(request):
 # forgot password 
 def forgot_password(request):
 	otp=random.randint(1000,9999)
-	
 	if request.method == 'POST':
 		email=request.POST['otpemail']
+		request.session['OTP'] = otp
 		request.session['Email_OTP'] = email
-		
 		try:
 			subject = 'welcome to AB Dev world'
 			message = f'Hi, thank you for registering in AB dev. here is your OTP : {otp} on your email {email}'
@@ -96,10 +96,9 @@ def forgot_password(request):
 			msg = "Mail sent Successfully !!"
 			return render(request,'otp_verification.html',{'msg':msg})
 		except Exception as e:
-			print("Might be some issue",e)
-			
+			msg="Might be some issue"
+			return render(request,'forgot_password.html',{'msg':msg})			
 	return render(request,'forgot_password.html')
-
 
 # Forgot-password OTP verification method
 def otp_verification(request):
