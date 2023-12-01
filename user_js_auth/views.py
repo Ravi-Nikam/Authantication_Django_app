@@ -4,10 +4,12 @@ import random
 from django.core.mail import send_mail
 from django.conf import settings
 # Create your views here.
+
+# Home Page
 def index(request):
 	return render(request,'index.html')
 
-
+# Registration Page
 def signup(request):
 	if request.method == "POST":
 		name = request.POST['name']
@@ -23,6 +25,7 @@ def signup(request):
 		return render(request,'login.html',{'msg':msg})
 	return render(request,'signup.html')
 
+# Login Page
 def login(request):
 	if request.method == "POST":
 		try:
@@ -39,6 +42,7 @@ def login(request):
 			msg = "the email you have entered is incorrect"
 			return render(request,'login.html',{'msg':msg})
 
+# Change Password 
 def reset_password(request):
 	if request.method == 'POST':
 		try:
@@ -60,9 +64,11 @@ def reset_password(request):
 			return render(request,'reset_password.html',{'msg':msg})
 	return render(request,'reset_password.html')
 
+# Contact information
 def contact(request):
 	return render(request,'contact.html')
 
+# Logout from Project
 def logout(request):
 	try:
 		del request.session['email']
@@ -73,6 +79,7 @@ def logout(request):
 		print("Might be some issue",e)
 		return render(request,'login.html')
 
+# forgot password 
 def forgot_password(request):
 	otp=random.randint(1000,9999)
 	
@@ -81,7 +88,7 @@ def forgot_password(request):
 		request.session['Email_OTP'] = email
 		
 		try:
-			subject = 'welcome to GFG world'
+			subject = 'welcome to AB Dev world'
 			message = f'Hi, thank you for registering in AB dev. here is your OTP : {otp} on your email {email}'
 			email_from = settings.EMAIL_HOST_USER
 			recipient_list = [email]
@@ -94,6 +101,7 @@ def forgot_password(request):
 	return render(request,'forgot_password.html')
 
 
+# Forgot-password OTP verification method
 def otp_verification(request):
 	if str(request.session['OTP'])==request.POST['otp']:
 		msg = "OTP Successfully verified "
@@ -101,6 +109,7 @@ def otp_verification(request):
 	else:
 		return render(request,'otp_verification.html')
 		
+# Forgot-password Add New Password 
 def new_password(request):
 	if request.method == "POST":
 		n_pwd=request.POST['password']
